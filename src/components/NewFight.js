@@ -20,8 +20,11 @@ export default class NewFight extends React.Component {
     console.log(event.target.value);
     this.setState({ fighterTwo: event.target.value });
   };
+  handleDescriptionChange = (event) => {
+    this.setState({ description: event.target.value });
+  };
   handleSubmit = (event) => {
-    const { fighterOne, fighterTwo } = this.state;
+    const { fighterOne, fighterTwo,description } = this.state;
 
     event.preventDefault();
 
@@ -31,13 +34,14 @@ export default class NewFight extends React.Component {
       data: {
         boxer1: fighterOne,
         boxer2: fighterTwo,
+        description:description
       },
       headers: { "Content-Type": "application/json" },
     })
       .then(function (response) {
         console.log(response);
         alert(response.data.message);
-        window.location.href=`/record`;
+        window.location.href = `/record`;
         return response.data;
       })
       .catch(function (response) {
@@ -107,6 +111,19 @@ export default class NewFight extends React.Component {
                       );
                     })}
                   </select>
+                </div>
+                <div className="my-3">
+                  <label for="description" class="form-label">
+                    Description
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="description"
+                    value={this.state.description}
+                    onChange={this.handleDescriptionChange}
+                    placeholder="Short description of the fight"
+                  />
                 </div>
 
                 <button type="submit" className="btn btn-primary fw-bold">

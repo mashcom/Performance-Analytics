@@ -28,15 +28,6 @@ export default class DashboardLayout extends Component {
               >
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                   <li className="nav-item">
-                    <Link
-                      className="nav-link active  text-white"
-                      aria-current="page"
-                      to={`/`}
-                    >
-                      Home
-                    </Link>
-                  </li>
-                  <li className="nav-item">
                     <Link className="nav-link  text-white" to={`/record`}>
                       Recording Sessions
                     </Link>
@@ -51,12 +42,7 @@ export default class DashboardLayout extends Component {
                       Boxers
                     </Link>
                   </li>
-                  <li className="nav-item">
-                    <Link
-                     className="nav-link  text-white" to={`/report`}>
-                      Reports
-                    </Link>
-                  </li>
+                 
                   <li className="nav-item dropdown">
                     <Link
                       className="nav-link dropdown-toggle  text-white"
@@ -73,8 +59,7 @@ export default class DashboardLayout extends Component {
                           Information
                         </Link>
                       </li>
-                     
-                     
+
                       <li>
                         <Link className="dropdown-item" to={`/target`}>
                           Targets

@@ -1,5 +1,6 @@
 import axios from "axios";
 import React from "react";
+import { PieChart } from "react-bootstrap-icons";
 import { Link, redirect } from "react-router-dom";
 import HeaderTitle from "./HeaderTitle";
 
@@ -52,11 +53,25 @@ export default class FightRecords extends React.Component {
                             Record for {fight.boxer.name}
                           </Link>
                           <Link
-                            className="btn btn-success w-100 mb-2 btn-block fw-bold"
+                            className="btn btn-secondary w-100 mb-2 btn-block fw-bold"
                             to={`/record/${fight.id}/${fight.boxer2}`}
                             key={fight.id}
                           >
                             Record for {fight.opponent.name}
+                          </Link>
+                          <Link
+                            className="btn btn-success w-100 mb-2 btn-block fw-bold"
+                            to={`/report/${fight.id}`}
+                            key={fight.id}
+                          >
+                            View Report
+                          </Link>
+                          <Link
+                            className="btn btn-warning w-100 mb-2 btn-block fw-bold"
+                            to={`/upload/${fight.id}`}
+                            key={fight.id}
+                          >
+                            Upload Video
                           </Link>
                         </td>
                       </tr>

@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { Tab, Tabs } from "react-bootstrap";
 import HeaderTitle from "./HeaderTitle";
 import LoadingSpinner from "./LoadingSpinner";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default class FightInfo extends React.Component {
   constructor(props) {
@@ -16,6 +18,7 @@ export default class FightInfo extends React.Component {
     return (
       <React.Fragment>
         <div className="container mt-3">
+          <ToastContainer />
           <HeaderTitle title="Fight Recorder"></HeaderTitle>
           <Tabs
             defaultActiveKey="home"
@@ -30,32 +33,110 @@ export default class FightInfo extends React.Component {
                 </div>
               )}
               <Tabs
-                defaultActiveKey='0'
+                defaultActiveKey="0"
                 id="uncontrolled-tab-example"
                 className="mb-3"
               >
                 {settings.infos !== undefined ? (
-                  
                   settings.infos.map((info) => {
                     return (
                       <Tab eventKey={info.id} title={info.name}>
-                        {info.actions.map((action) => {
-                          return (
+                        <h5 class="fw-bold text-muted float-left mx-3">
+                          Action
+                        </h5>
+                        <div
+                          class="btn-group btn-group-lg col-lg-12"
+                          role="group"
+                          aria-label="Large button group"
+                        >
+                          {info.actions.map((action) => {
+                            return (
+                              <React.Fragment>
+                                <button
+                                  key={action.id}
+                                  type="button"
+                                  class="btn btn-outline-dark btn-lg m-3 fw-bolder p-3"
+                                  data-bs-toggle="moddal"
+                                  data-bs-target="#exampleMeodal"
+                                  onClick={this.setActionTaken.bind(
+                                    this,
+                                    action.id
+                                  )}
+                                >
+                                  {action.name}
+                                </button>
+                              </React.Fragment>
+                            );
+                          })}
+                        </div>
+                        <div class="p-3">
+                          <h5 class="fw-bold text-muted">Target </h5>
+                          <div
+                            class="btn-group btn-group-lg col-lg-12"
+                            role="group"
+                            aria-label="Large button group"
+                          >
+                            {settings.targets !== undefined ? (
+                              settings.targets.map((target) => {
+                                return (
+                                  <button
+                                    type="button"
+                                    class="btn btn-outline-dark btn-lg btn-block w-100 fw-bolder p-3"
+                                    onClick={this.setActionTarget.bind(
+                                      this,
+                                      target.id
+                                    )}
+                                  >
+                                    {target.name}
+                                  </button>
+                                );
+                              })
+                            ) : (
+                              <React.Fragment></React.Fragment>
+                            )}
+                          </div>
+
+                          <h5 class="fw-bold text-muted float-left my-3">
+                            Outcome
+                          </h5>
+                          <div
+                            class="btn-group btn-group-lg col-lg-12 fw-bold"
+                            role="group"
+                            aria-label="Large button group"
+                          >
                             <button
-                              key={action.id}
+                              onClick={this.submitOutcome.bind(this, "success")}
                               type="button"
-                              class="btn btn-outline-dark btn-lg m-3 fw-bolder p-5"
-                              data-bs-toggle="modal"
-                              data-bs-target="#exampleModal"
-                              onClick={this.setActionTaken.bind(
-                                this,
-                                action.id
-                              )}
+                              class="btn btn-success btn-lg fw-bolder p-3"
                             >
-                              {action.name}
+                              Success
                             </button>
-                          );
-                        })}
+                            <button
+                              onClick={this.submitOutcome.bind(this, "failed")}
+                              type="button"
+                              class="btn btn-danger"
+                            >
+                              Failed
+                            </button>
+                            <button
+                              onClick={this.submitOutcome.bind(
+                                this,
+                                "partial success"
+                              )}
+                              type="button"
+                              class="btn btn-warning"
+                            >
+                              Partial Success
+                            </button>
+                            <button
+                              onClick={this.submitOutcome.bind(this, "unknown")}
+                              type="button"
+                              class="btn btn-secondary"
+                            >
+                              Unknown
+                            </button>
+                          </div>
+                        </div>
                       </Tab>
                     );
                   })
@@ -65,91 +146,6 @@ export default class FightInfo extends React.Component {
               </Tabs>
             </Tab>
           </Tabs>
-        </div>
-
-        {/* <!--ACTION OUTCOME --> */}
-        <div
-          class="modal fade"
-          id="exampleModal"
-          tabindex="-1"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title fw-bold" id="exampleModalLabel">
-                  Outcome
-                </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">
-                <h5 class="fw-bold text-muted">Target </h5>
-                <div
-                  class="btn-group btn-group-lg"
-                  role="group"
-                  aria-label="Large button group"
-                >
-                  {settings.targets !== undefined ? (
-                    settings.targets.map((target) => {
-                      return (
-                        <button
-                          type="button"
-                          class="btn btn-outline-dark"
-                          onClick={this.setActionTarget.bind(this, target.id)}
-                        >
-                          {target.name}
-                        </button>
-                      );
-                    })
-                  ) : (
-                    <React.Fragment></React.Fragment>
-                  )}
-                </div>
-
-                <h5 class="fw-bold text-muted float-left my-3">Outcome</h5>
-                <div
-                  class="btn-group btn-group-md col-lg-12"
-                  role="group"
-                  aria-label="Large button group"
-                >
-                  <button
-                    onClick={this.submitOutcome.bind(this, "success")}
-                    type="button"
-                    class="btn btn-success"
-                  >
-                    Success
-                  </button>
-                  <button
-                    onClick={this.submitOutcome.bind(this, "failed")}
-                    type="button"
-                    class="btn btn-danger"
-                  >
-                    Failed
-                  </button>
-                  <button
-                    onClick={this.submitOutcome.bind(this, "partial success")}
-                    type="button"
-                    class="btn btn-warning"
-                  >
-                    Partial Success
-                  </button>
-                  <button
-                    onClick={this.submitOutcome.bind(this, "unknown")}
-                    type="button"
-                    class="btn btn-default"
-                  >
-                    Unknown
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </React.Fragment>
     );
@@ -210,7 +206,7 @@ export default class FightInfo extends React.Component {
     });
   }
 
-  submitOutcome(outcome) {
+  submitOutcome = (outcome) => {
     this.setState({
       actionOutcome: outcome,
     });
@@ -231,12 +227,12 @@ export default class FightInfo extends React.Component {
     })
       .then(function (response) {
         console.log(response);
-        alert(response.data.message);
+        toast(response.data.message);
         return response.data;
       })
       .catch(function (response) {
         console.log(response);
         return response.data;
       });
-  }
+  };
 }
