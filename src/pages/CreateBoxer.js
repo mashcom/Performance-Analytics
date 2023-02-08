@@ -44,17 +44,40 @@ export default class CreateBoxer extends Component {
       headers: { "Content-Type": "application/json" },
     })
       .then(function (response) {
-        console.log(response);
-        alert(response.data.message);
-        this.setState({})
+        this.setState({});
+        alert("Boxer added successfully");
         return response.data;
       })
       .catch(function (response) {
-        console.log(response);
+        console.log(response.response.status);
+        alert("Make sure you have filled the fields!");
         return response.data;
       });
   };
+
+  getClasses() {
+    axios({
+      method: "get",
+      url: `http://127.0.0.1:9000/http://127.0.0.1:3333/api/v1/classes`,
+    })
+      .then((response) => {
+        console.log(response.data);
+        this.setState({
+          classes: response.data,
+        });
+      })
+      .catch((response) => {
+        console.log(response);
+        this.setState({
+          classes: response.data,
+        });
+      });
+  }
+  componentDidMount() {
+    this.getClasses();
+  }
   render() {
+    const { classes } = this.state;
     return (
       <React.Fragment>
         <div className="container my-5">
@@ -62,89 +85,105 @@ export default class CreateBoxer extends Component {
           <div className="card">
             <div className="card-header">Enter Details</div>
             <div className="card-body">
-              <form class="row g-3" onSubmit={this.handleSubmit}>
-                <div class="col-md-6">
-                  <label for="name" class="form-label">
+              <form className="row g-3" onSubmit={this.handleSubmit}>
+                <div className="col-md-6">
+                  <label htmlFor="name" className="form-label">
                     Fullname
                   </label>
                   <input
                     type="name"
-                    class="form-control"
+                    className="form-control"
                     id="name"
                     value={this.state.name}
                     onChange={this.handleNameChange}
                   />
                 </div>
 
-                <div class="col-6">
-                  <label for="dob" class="form-label">
+                <div className="col-6">
+                  <label htmlFor="dob" className="form-label">
                     DOB
                   </label>
                   <input
                     type="date"
-                    class="form-control"
+                    className="form-control"
                     id="dob"
                     placeholder=""
                     value={this.state.dob}
                     onChange={this.handleDobChange}
                   />
                 </div>
-                <div class="col-md-12">
-                  <label for="description" class="form-label">
+                <div className="col-md-12">
+                  <label htmlFor="description" className="form-label">
                     Description
                   </label>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     id="description"
                     value={this.state.description}
                     onChange={this.handleDescriptionChange}
                   />
                 </div>
-                <div class="col-md-4">
-                  <label for="weight" class="form-label">
+                <div className="col-md-4">
+                  <label htmlFor="weight" className="form-label">
                     Weight (KG)
                   </label>
                   <input
                     type="number"
                     min={1}
                     max={700}
-                    class="form-control"
+                    className="form-control"
                     id="weight"
                     value={this.state.weight}
                     onChange={this.handleWeightChange}
                   />
                 </div>
-                <div class="col-md-4">
-                  <label for="Height" class="form-label">
+                <div className="col-md-4">
+                  <label htmlFor="Height" className="form-label">
                     Height (CM)
                   </label>
                   <input
                     type="number"
                     min={1}
                     max={500}
-                    class="form-control"
+                    className="form-control"
                     id="height"
                     value={this.state.height}
                     onChange={this.handleHeightChange}
                   />
                 </div>
-                <div class="col-md-4">
-                  <label for="Reach" class="form-label">
-                    Reach (CM)
+                <div className="col-md-4">
+                  <label htmlFor="Reach" className="form-label">
+                    Category
                   </label>
-                  <input
-                    type="number"
-                    min={1}
-                    max={500}
-                    class="form-control"
-                    id="reach"
-                    value={this.state.reach}
+                  <select
+                    className="form-select"
+                    aria-label="Default select example"
+                    defaultValue={""}
                     onChange={this.handleReachChange}
-                  />
+                  >
+                    <option value="" disabled>
+                      Select Category
+                    </option>
+                    {classes !== undefined &&
+                      classes.map((boxer) => {
+                        return (
+                          <option
+                            className="text-uppercase"
+                            key={boxer.name}
+                            value={boxer.name}
+                          >
+                            {boxer.name}
+                          </option>
+                        );
+                      })}
+                  </select>
                 </div>
-                <div class="col-12">
-                  <button type="submit" class="btn btn-primary fw-bold text-uppercase">
+                <div className="col-12">
+                  <button
+                    type="submit"
+                    className="btn btn-primary fw-bold text-uppercase"
+                  >
                     SUBMIT
                   </button>
                 </div>

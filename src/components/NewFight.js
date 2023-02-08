@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { redirect } from "react-router-dom";
+import HeaderTitle from "./HeaderTitle";
 
 export default class NewFight extends React.Component {
   constructor(props) {
@@ -56,11 +57,12 @@ export default class NewFight extends React.Component {
     return (
       <React.Fragment>
         <div className="col-lg-6 mx-auto mt-5">
+          <HeaderTitle title="Analyse New Bout"></HeaderTitle>
           <div className="card">
-            <div className="card-header fw-bold">CREATE NEW FIGHT</div>
+            <div className="card-header fw-bold">Analyse New Bout</div>
             <div className="card-body">
               <div className="alert alert-info fw-bold">
-                Please select the fighters you want to record perfomance for!
+                Please select the boxers you want to record perfomance for!
               </div>
               <form onSubmit={this.handleSubmit}>
                 <div className="mb-3">
@@ -127,7 +129,7 @@ export default class NewFight extends React.Component {
                 </div>
 
                 <button type="submit" className="btn btn-primary fw-bold">
-                  START RECORDING FIGHT
+                  START SESSION
                 </button>
               </form>
             </div>

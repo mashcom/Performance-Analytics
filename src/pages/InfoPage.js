@@ -104,6 +104,7 @@ export default class InfoPage extends Component {
           <div className="card-body">
             {info !== undefined ? (
               <React.Fragment>
+                
                 <Tabs
                   defaultActiveKey={info[0].id}
                   id="uncontrolled-tab-example"
@@ -121,6 +122,7 @@ export default class InfoPage extends Component {
                           onSubmit={this.handleActionSubmit}
                         >
                           <div class="col">
+                           
                             <input
                               type="text"
                               class="form-control"
@@ -168,6 +170,9 @@ export default class InfoPage extends Component {
     })
       .then((response) => {
         console.log(response.data);
+        
+          this.setState({ active_id: response.data[0].id });
+        
         this.setState({
           info: response.data,
         });

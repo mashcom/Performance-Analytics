@@ -1,7 +1,7 @@
 import axios from "axios";
 import React from "react";
-import { PieChart } from "react-bootstrap-icons";
 import { Link, redirect } from "react-router-dom";
+import LoadingSpinner from "./LoadingSpinner";
 import HeaderTitle from "./HeaderTitle";
 
 export default class FightRecords extends React.Component {
@@ -16,69 +16,73 @@ export default class FightRecords extends React.Component {
     return (
       <React.Fragment>
         <div className="container mx-auto mt-5">
-          <HeaderTitle title="Join Fight Recording"></HeaderTitle>
+          <HeaderTitle title="Join Perfomance Analysis"></HeaderTitle>
           <div className="card">
             <div className="card-header fw-bold">
-              Available Recording Sessions
+              Available Sessions
             </div>
             <div className="card-body">
               <div className="alert alert-info fw-bold">
-                Please select the fighter you want to record performance!
+                Please select the fighter you want to record performance fro!
               </div>
-
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th scope="col">Fight ID</th>
-                    <th scope="col">Main</th>
-                    <th scope="col">Opponent</th>
-                    <th scope="col">Create At</th>
-                    <th scope="col"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {fights.map((fight) => {
-                    return (
-                      <tr>
-                        <th scope="row">{fight.id}</th>
-                        <td>{fight.boxer.name}</td>
-                        <td>{fight.opponent.name}</td>
-                        <td>{fight.created_at}</td>
-                        <td className="w-25">
-                          <Link
-                            className="btn btn-primary w-100 mb-2 btn-block fw-bold"
-                            to={`/record/${fight.id}/${fight.boxer1}`}
-                            key={fight.id}
-                          >
-                            Record for {fight.boxer.name}
-                          </Link>
-                          <Link
-                            className="btn btn-secondary w-100 mb-2 btn-block fw-bold"
-                            to={`/record/${fight.id}/${fight.boxer2}`}
-                            key={fight.id}
-                          >
-                            Record for {fight.opponent.name}
-                          </Link>
-                          <Link
-                            className="btn btn-success w-100 mb-2 btn-block fw-bold"
-                            to={`/report/${fight.id}`}
-                            key={fight.id}
-                          >
-                            View Report
-                          </Link>
-                          <Link
-                            className="btn btn-warning w-100 mb-2 btn-block fw-bold"
-                            to={`/upload/${fight.id}`}
-                            key={fight.id}
-                          >
-                            Upload Video
-                          </Link>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+              {fights === undefined && (
+                <LoadingSpinner title="Loading fights" />
+              )}
+              {fights !== undefined && (
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">Fight ID</th>
+                      <th scope="col">Main</th>
+                      <th scope="col">Opponent</th>
+                      <th scope="col">Date and Time</th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {fights.map((fight) => {
+                      return (
+                        <tr>
+                          <th scope="row">{fight.id}</th>
+                          <td>{fight.boxer.name}</td>
+                          <td>{fight.opponent.name}</td>
+                          <td>{fight.created_at}</td>
+                          <td className="w-25">
+                            <Link
+                              className="btn btn-primary w-100 mb-2 btn-block fw-bold"
+                              to={`/record/${fight.id}/${fight.boxer1}`}
+                              key={fight.id}
+                            >
+                              Record for {fight.boxer.name}
+                            </Link>
+                            <Link
+                              className="btn btn-secondary w-100 mb-2 btn-block fw-bold"
+                              to={`/record/${fight.id}/${fight.boxer2}`}
+                              key={fight.id}
+                            >
+                              Record for {fight.opponent.name}
+                            </Link>
+                            <Link
+                              className="btn btn-success w-100 mb-2 btn-block fw-bold"
+                              to={`/report/${fight.id}`}
+                              key={fight.id}
+                            >
+                              View Reports Analysis
+                            </Link>
+                            <Link
+                              className="btn btn-warning w-100 mb-2 btn-block fw-bold"
+                              to={`/upload/${fight.id}`}
+                              key={fight.id}
+                            >
+                              Upload Video
+                            </Link>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              )}
             </div>
           </div>
         </div>

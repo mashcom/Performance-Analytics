@@ -9,7 +9,7 @@ export default class DashboardLayout extends Component {
           <nav className="navbar navbar-expand-lg bg-dark">
             <div className="container-fluid">
               <Link className="navbar-brand text-white fw-bolder" to={`/`}>
-                Performance Analytics System
+                Boxing  Nortation Perfomance Analysis System
               </Link>
               <button
                 className="navbar-toggler"
@@ -29,12 +29,12 @@ export default class DashboardLayout extends Component {
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                   <li className="nav-item">
                     <Link className="nav-link  text-white" to={`/record`}>
-                      Recording Sessions
+                      Analysis Sessions
                     </Link>
                   </li>
                   <li className="nav-item">
                     <Link className="nav-link  text-white" to={`/fight`}>
-                      Create Fight
+                      New Analysis
                     </Link>
                   </li>
                   <li className="nav-item">

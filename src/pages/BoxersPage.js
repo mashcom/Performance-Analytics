@@ -33,7 +33,7 @@ export default class BoxersPage extends Component {
                     <td>DOB</td>
                     <td>Weight(kg)</td>
                     <td>Height(cm)</td>
-                    <td>Reach(cm)</td>
+                    <td>Category</td>
                   </tr>
                 </thead>
                 <tbody>

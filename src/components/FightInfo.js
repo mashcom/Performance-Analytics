@@ -9,17 +9,22 @@ import "react-toastify/dist/ReactToastify.css";
 export default class FightInfo extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { settings: [] };
+    this.state = {
+      settings: [],
+      rounds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+      activeRound: 1,
+    };
   }
 
   render() {
-    const { settings, boxer_details } = this.state;
+    const { settings, boxer_details, rounds } = this.state;
 
     return (
       <React.Fragment>
         <div className="container mt-3">
           <ToastContainer />
-          <HeaderTitle title="Fight Recorder"></HeaderTitle>
+          <HeaderTitle title="Perfomance Analyst"></HeaderTitle>
+
           <Tabs
             defaultActiveKey="home"
             id="uncontrolled-tab-example"
@@ -27,10 +32,34 @@ export default class FightInfo extends React.Component {
           >
             <Tab eventKey="home" title="Home">
               {boxer_details !== undefined && (
-                <div className="alert alert-info">
-                  Blessing vs Mike Fight you are recording for{" "}
-                  <span className="fw-bolder">{boxer_details.name}</span>
-                </div>
+                <React.Fragment>
+                  <div className="alert alert-info">
+                    Blessing vs Mike Fight you are recording for{" "}
+                    <span className="fw-bolder">{boxer_details.name}</span>
+                  </div>
+                  <div
+                    class="btn-group btn-group-sm col-lg fw-bold mb-5"
+                    role="group"
+                    aria-label="Large button group mb-5"
+                  >
+                    {rounds.map((round) => {
+                      return (
+                        <button
+                          key={round}
+                          onClick={this.selectRound.bind(this, round)}
+                          type="button"
+                          className={
+                            round === this.state.activeRound
+                              ? "btn btn-bordered btn-sm fw-bolder p-3 btn-primary"
+                              : "btn btn-bordered btn-sm fw-bolder p-3 btn-outline-dark"
+                          }
+                        >
+                          Round {round}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </React.Fragment>
               )}
               <Tabs
                 defaultActiveKey="0"
@@ -128,13 +157,13 @@ export default class FightInfo extends React.Component {
                             >
                               Partial Success
                             </button>
-                            <button
+                            {/* <button
                               onClick={this.submitOutcome.bind(this, "unknown")}
                               type="button"
                               class="btn btn-secondary"
                             >
                               Unknown
-                            </button>
+                            </button> */}
                           </div>
                         </div>
                       </Tab>
@@ -206,13 +235,25 @@ export default class FightInfo extends React.Component {
     });
   }
 
+  selectRound(id) {
+    this.setState({
+      activeRound: id,
+    });
+  }
+
   submitOutcome = (outcome) => {
     this.setState({
       actionOutcome: outcome,
     });
 
-    const { actionOutcome, actionTaken, actionTarget, fight_id, fighter_id } =
-      this.state;
+    const {
+      actionOutcome,
+      actionTaken,
+      actionTarget,
+      fight_id,
+      fighter_id,
+      activeRound,
+    } = this.state;
     axios({
       method: "post",
       url: `http://127.0.0.1:9000/http://127.0.0.1:3333/api/v1/outcome`,
@@ -222,6 +263,7 @@ export default class FightInfo extends React.Component {
         boxer_id: fighter_id,
         fight_id: fight_id,
         outcome: outcome,
+        round: activeRound,
       },
       headers: { "Content-Type": "application/json" },
     })
